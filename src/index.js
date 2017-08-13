@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import Board from './board-component';
 import './index.css';
 
@@ -8,9 +7,7 @@ import openSocket from 'socket.io-client';
 const socket = openSocket('http://192.168.0.104:4000');
 
 var uuid = require('uuid4');
-
 var playerId = uuid();
-var canMove = false;
 
 class Game extends React.Component {
   constructor() {
@@ -20,6 +17,7 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
+      canMove: false,
     };
 
     super();
@@ -32,10 +30,11 @@ class Game extends React.Component {
         this.setState(state);
       });
       socket.on('player_move', () => {
-        canMove = true;
+        this.setState({
+          canMove: true
+        });
       });
       socket.on('reset', () => {
-        canMove = false;
         this.setState(defaultState);
       });
 
@@ -47,7 +46,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if(!canMove || calculateWinner(squares) || squares[i]) {
+    if(!this.state.canMove || calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -57,11 +56,11 @@ class Game extends React.Component {
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
+      canMove: false
     }
 
     this.setState(state);
     socket.emit('move', state);
-    canMove = false;
   }
 
   render() {
@@ -77,6 +76,8 @@ class Game extends React.Component {
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
 
+      let who = this.state.canMove ? 'Your move!' : 'Opposite player move';
+
       return (
         <div className="game">
           <div className="game-board">
@@ -87,6 +88,7 @@ class Game extends React.Component {
           </div>
           <div className="game-info">
             <div>{status}</div>
+            <div>{who}</div>
           </div>
         </div>
       );
