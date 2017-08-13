@@ -4,16 +4,13 @@ import Board from './board-component';
 import './index.css';
 
 import openSocket from 'socket.io-client';
-const socket = openSocket(process.env.API_URL || 'http://192.168.0.104:4000');
+const socket = openSocket(process.env.REACT_APP_API_URL || 'http://192.168.0.104:4000');
 
 var uuid = require('uuid4');
 var playerId = uuid();
 
 class Game extends React.Component {
   constructor() {
-
-    console.log(process.env.API_URL);
-
     const defaultState = {
       history: [{
         squares: Array(9).fill(null),
