@@ -4,7 +4,7 @@ import Board from './board-component';
 import './index.css';
 
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://192.168.0.104:4000');
+const socket = openSocket(process.env.API_URL || 'http://192.168.0.104:4000');
 
 var uuid = require('uuid4');
 var playerId = uuid();
