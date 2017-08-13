@@ -21,7 +21,7 @@ ol, ul {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 54px;
   font-weight: bold;
   line-height: 34px;
   height: 34px;
@@ -29,7 +29,9 @@ ol, ul {
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+
+  width: 200px;
+  height: 200px;
 }
 
 .square:focus {
