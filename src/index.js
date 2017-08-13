@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom';
 import Board from './board-component';
 import './index.css';
 
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://192.168.0.104:4000');
+
 class Game extends React.Component {
   constructor() {
     super();
