@@ -11,6 +11,9 @@ var playerId = uuid();
 
 class Game extends React.Component {
   constructor() {
+
+    console.log(process.env.API_URL);
+
     const defaultState = {
       history: [{
         squares: Array(9).fill(null),
